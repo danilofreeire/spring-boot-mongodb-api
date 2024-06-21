@@ -1,6 +1,7 @@
 package com.social.workshop.domain;
 
 import com.social.workshop.dto.AuthorDTO;
+import com.social.workshop.dto.CommentDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -8,6 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -21,6 +24,8 @@ public class Post implements Serializable {
     private String title;
     private String body;
     private AuthorDTO authorDto;
+
+    private List<CommentDTO> comments = new ArrayList<>();
 
     public Post(){
 
