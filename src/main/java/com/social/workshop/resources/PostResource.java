@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,24 @@ public class PostResource {
                                                       String text) {
         text = URL.DECOD_PARAM(text);
         List<Post> pst = postService.findByTitle(text);
+
+        if(pst.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(pst);
+    }
+    @GetMapping("/posts/fullsearch")
+    public ResponseEntity<Object> fullSearch(
+            @RequestParam(value = "text",defaultValue = "") String text,
+            @RequestParam(value = "minDate",defaultValue = "") String minDate,
+            @RequestParam(value = "maxDate",defaultValue = "") String maxDate) {
+        LocalDate dateDefault= LocalDate.EPOCH;
+        text = URL.DECOD_PARAM(text);
+
+        LocalDate min = URL.CONVERT_DATE(minDate,dateDefault);
+        LocalDate max = URL.CONVERT_DATE(maxDate,dateDefault);
+
+        List<Post> pst = postService.fullSearch(text,min,max);
 
         if(pst.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
