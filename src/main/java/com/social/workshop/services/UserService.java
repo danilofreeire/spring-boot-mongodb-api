@@ -1,6 +1,7 @@
 package com.social.workshop.services;
 
 import com.social.workshop.domain.User;
+import com.social.workshop.dto.UserDTO;
 import com.social.workshop.repository.UserRepository;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,10 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+    public User saveUser(User user){
+        return userRepository.save(user);
+    }
+
     public Optional<User> findUserById(@NotNull String id) {
         Optional<User> user = userRepository.findById(id);
         return user;
@@ -21,4 +26,5 @@ public class UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
 }
