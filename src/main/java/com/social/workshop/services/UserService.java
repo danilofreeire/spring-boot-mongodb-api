@@ -18,7 +18,9 @@ public class UserService {
     public User saveUser(User user){
         return userRepository.save(user);
     }
-
+    public void deleteUser(String id){
+        userRepository.deleteById(id);
+    }
     public Optional<User> findUserById(@NotNull String id) {
         Optional<User> user = userRepository.findById(id);
         return user;

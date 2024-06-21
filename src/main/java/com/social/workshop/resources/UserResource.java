@@ -31,7 +31,16 @@ public class UserResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(user));
 
     }
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") String id) {
+        Optional<User> user = userService.findUserById(id);
+        if (!user.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully");
 
+    }
     @GetMapping("/users/{id}")
     public ResponseEntity<Object> getUser(@PathVariable(value = "id") String id) {
         Optional<User> usr = userService.findUserById(id);
