@@ -21,6 +21,7 @@ public class Instantiation implements CommandLineRunner {
     @Autowired
     PostRepository post;
 
+
     @Override
     public void run(String... args) throws Exception {
         DateTimeFormatter fmt1 = DateTimeFormatter.ofPattern("dd/MM/yyyy").withZone(ZoneId.of("GMT"));
@@ -41,5 +42,8 @@ public class Instantiation implements CommandLineRunner {
                 "Bom dia", "Acordei Feliz hoje!",new AuthorDTO(maria));
 
         post.saveAll(Arrays.asList(post1,post2));
+
+        maria.getPosts().addAll(Arrays.asList(post1,post2));
+        user.save(maria);
     }
 }
