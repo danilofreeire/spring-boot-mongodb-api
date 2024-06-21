@@ -17,6 +17,9 @@ public class PostService {
     @Autowired
     PostRepository postRepository;
 
+    public Post savePost(Post post) {
+        return postRepository.save(post);
+    }
     public Optional<Post> findPostById(@NotNull String id) {
         Optional<Post> post = postRepository.findById(id);
         return post;

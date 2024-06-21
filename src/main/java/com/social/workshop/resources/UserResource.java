@@ -27,7 +27,6 @@ public class UserResource {
         var user = new User();
         BeanUtils.copyProperties(userDTO, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(user));
-
     }
 
     @DeleteMapping("/users/{id}")

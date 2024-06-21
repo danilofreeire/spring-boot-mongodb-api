@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public record CommentDTO(@NotBlank String text, @NotBlank LocalDate date, @NotNull AuthorDTO authorDTO) implements Serializable {
+public record CommentDTO(@NotBlank String text,  LocalDate date, @NotNull AuthorDTO authorDTO) implements Serializable {
     private static final long serialVersionUID = 1L;
 
 }

@@ -1,10 +1,15 @@
 package com.social.workshop.resources;
 
 import com.social.workshop.domain.Post;
+import com.social.workshop.domain.User;
+import com.social.workshop.dto.PostDTO;
 import com.social.workshop.resources.util.URL;
 import com.social.workshop.services.PostService;
 
+import com.social.workshop.services.UserService;
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +28,14 @@ public class PostResource {
     @Autowired
     PostService postService;
 
+    @PostMapping("/posts")
+    public ResponseEntity<Post> createPost(@RequestBody @Valid PostDTO postDTO) {
+
+        var post = new Post();
+        BeanUtils.copyProperties(postDTO, post);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postService.savePost(post));
+
+    }
     
     @GetMapping("/posts/{id}")
     public ResponseEntity<Object> getPost(@PathVariable(value = "id") String id) {
