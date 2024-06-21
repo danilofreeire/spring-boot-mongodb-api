@@ -20,5 +20,9 @@ public class PostService {
         return post;
     }
 
+    public List<Post> findByTitle(@NotNull String title) {
+        return postRepository.findByTitleContaining(title);
+    }
+
 
 }

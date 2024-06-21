@@ -1,6 +1,7 @@
 package com.social.workshop.resources;
 
 import com.social.workshop.domain.Post;
+import com.social.workshop.resources.util.URL;
 import com.social.workshop.services.PostService;
 
 import lombok.extern.log4j.Log4j2;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -28,6 +30,17 @@ public class PostResource {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
         }
         return ResponseEntity.status(HttpStatus.OK).body(pst.get());
+    }
+    @GetMapping("/posts/titlesearch")
+    public ResponseEntity<Object> findByTitle(@RequestParam(value = "text",defaultValue = "")
+                                                      String text) {
+        text = URL.DECOD_PARAM(text);
+        List<Post> pst = postService.findByTitle(text);
+
+        if(pst.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(pst);
     }
     
 }
