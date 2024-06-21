@@ -1,5 +1,6 @@
 package com.social.workshop.resources;
 
+import com.social.workshop.domain.Post;
 import com.social.workshop.domain.User;
 import com.social.workshop.dto.UserDTO;
 import com.social.workshop.services.UserService;
@@ -28,6 +29,7 @@ public class UserResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(user));
 
     }
+
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") String id) {
         Optional<User> user = userService.findUserById(id);
@@ -62,6 +64,15 @@ public class UserResource {
         }
         return ResponseEntity.status(HttpStatus.OK).body(usr.get());
     }
+    @GetMapping("/users/{id}/posts")
+    public ResponseEntity<Object> getPost(@PathVariable(value = "id") String id) {
+        Optional<User> usr = userService.findUserById(id);
+        if(usr.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usr.get().getPosts());
+    }
+
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAll();
