@@ -10,7 +10,7 @@ import java.util.List;
 
 public record PostDTO(@NotNull LocalDate date,
                       @NotBlank String title, @NotBlank String body,
-                      @NotNull AuthorDTO authorDto,  List<CommentDTO> comments) implements Serializable {
+                      @NotNull AuthorDTO authorDto, List<CommentDTO> commentDTOS) implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public  PostDTO(Post post){

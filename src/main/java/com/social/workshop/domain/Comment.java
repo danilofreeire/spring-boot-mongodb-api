@@ -4,6 +4,7 @@ import com.social.workshop.dto.AuthorDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -23,6 +24,12 @@ public class Comment implements Serializable {
 
     public Comment() {
 
+    }
+    public Comment( String text, LocalDate date, AuthorDTO authorDTO) {
+
+        this.text = text;
+        this.date = date;
+        this.authorDTO = authorDTO;
     }
     public Comment(String id, String text, LocalDate date, AuthorDTO authorDTO) {
         this.id = id;

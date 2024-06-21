@@ -30,13 +30,12 @@ public class PostResource {
 
     @PostMapping("/posts")
     public ResponseEntity<Post> createPost(@RequestBody @Valid PostDTO postDTO) {
-
         var post = new Post();
         BeanUtils.copyProperties(postDTO, post);
         return ResponseEntity.status(HttpStatus.CREATED).body(postService.savePost(post));
 
     }
-    
+
     @GetMapping("/posts/{id}")
     public ResponseEntity<Object> getPost(@PathVariable(value = "id") String id) {
         Optional<Post> pst = postService.findPostById(id);
@@ -45,6 +44,8 @@ public class PostResource {
         }
         return ResponseEntity.status(HttpStatus.OK).body(pst.get());
     }
+
+
     @GetMapping("/posts/titlesearch")
     public ResponseEntity<Object> findByTitle(@RequestParam(value = "text",defaultValue = "")
                                                       String text) {

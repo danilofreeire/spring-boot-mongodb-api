@@ -1,5 +1,6 @@
 package com.social.workshop.config;
 
+import com.social.workshop.domain.Comment;
 import com.social.workshop.domain.Post;
 import com.social.workshop.domain.User;
 import com.social.workshop.dto.AuthorDTO;
@@ -43,13 +44,17 @@ public class Instantiation implements CommandLineRunner {
         Post post2 = new Post(null, LocalDate.parse("23/03/2018",fmt1),
                 "Bom dia", "Acordei Feliz hoje!",new AuthorDTO(maria));
 
-        CommentDTO c1 = new CommentDTO("Boa viagem mano!",LocalDate.parse("21/03/2018",fmt1),new AuthorDTO(alex));
-        CommentDTO c2 = new CommentDTO("Aproveite",LocalDate.parse("22/03/2018",fmt1),new AuthorDTO(bob));
-        CommentDTO c3 = new CommentDTO("Tenha um otimo dia",LocalDate.parse("23/03/2018",fmt1),new AuthorDTO(alex));
+        Comment c1 = new Comment("Boa viagem mano!",LocalDate.parse("21/03/2018",fmt1),new AuthorDTO(alex));
+        Comment c2 = new Comment("Aproveite",LocalDate.parse("22/03/2018",fmt1),new AuthorDTO(bob));
+        Comment c3 = new Comment("Tenha um otimo dia",LocalDate.parse("23/03/2018",fmt1),new AuthorDTO(alex));
 
-        post1.getComments().addAll(Arrays.asList(c1,c2));
+        CommentDTO c4 = new CommentDTO(c1);
+        CommentDTO c5 = new CommentDTO(c2);
+        CommentDTO c6 = new CommentDTO(c3);
 
-        post2.getComments().addAll(Arrays.asList(c3));
+        post1.getComments().addAll(Arrays.asList(c4,c5));
+
+        post2.getComments().addAll(Arrays.asList(c6));
 
         post.saveAll(Arrays.asList(post1,post2));
 
