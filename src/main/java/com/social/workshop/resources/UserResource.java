@@ -41,18 +41,33 @@ public class UserResource {
         return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully");
 
     }
+    @PutMapping("/users/{id}")
+    public ResponseEntity<Object> updateUser(@PathVariable(value = "id") String id,
+                                           @RequestBody @Valid UserDTO userDTO) {
+
+        Optional<User> user = userService.findUserById(id);
+        if (user.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        var newUser = user.get();
+        BeanUtils.copyProperties(userDTO, newUser);
+
+        userService.saveUser(newUser);
+        return ResponseEntity.status(HttpStatus.OK).body(newUser);
+
+    }
+
     @GetMapping("/users/{id}")
     public ResponseEntity<Object> getUser(@PathVariable(value = "id") String id) {
         Optional<User> usr = userService.findUserById(id);
         if(usr.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new UserDTO(usr.get()));
+        return ResponseEntity.status(HttpStatus.OK).body(usr.get());
     }
     @GetMapping("/users")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAll();
-        List<UserDTO> usersDTO = users.stream().map(x->new UserDTO(x.getId(), x.getName(),x.getEmail())).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(usersDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 }
