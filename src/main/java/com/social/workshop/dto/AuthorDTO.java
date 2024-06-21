@@ -6,13 +6,11 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
-public record UserDTO(@NotBlank String name, @NotBlank String email) implements Serializable {
-
+public record AuthorDTO(@NotNull String id, @NotBlank String name) implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public UserDTO(User user) {
-        this(user.getName(),user.getEmail());
+
+    public AuthorDTO(User user){
+        this(user.getId(),user.getName());
     }
-
-
 }

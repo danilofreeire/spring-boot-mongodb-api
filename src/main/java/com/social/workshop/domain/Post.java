@@ -1,5 +1,6 @@
 package com.social.workshop.domain;
 
+import com.social.workshop.dto.AuthorDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -19,18 +20,18 @@ public class Post implements Serializable {
     private LocalDate date;
     private String title;
     private String body;
-    private User user;
+    private AuthorDTO authorDto;
 
     public Post(){
 
     }
 
-    public Post(String id, LocalDate date, String title, String body, User user) {
+    public Post(String id, LocalDate date, String title, String body, AuthorDTO authorDto) {
         this.id = id;
         this.date = date;
         this.title = title;
         this.body = body;
-        this.user = user;
+        this.authorDto = authorDto;
     }
 
     @Override
