@@ -1,5 +1,6 @@
 package com.social.workshop.services;
 
+import com.social.workshop.domain.Post;
 import com.social.workshop.domain.User;
 import com.social.workshop.dto.UserDTO;
 import com.social.workshop.repository.UserRepository;
@@ -21,6 +22,14 @@ public class UserService {
     public void deleteUser(String id){
         userRepository.deleteById(id);
     }
+
+    public User addPostToUser(String userId, Post post) {
+        Optional<User> userOpt = findUserById(userId);
+        User user = userOpt.get();
+        user.getPosts().add(post);
+        return userRepository.save(user);
+    }
+
     public Optional<User> findUserById(@NotNull String id) {
         Optional<User> user = userRepository.findById(id);
         return user;

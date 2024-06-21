@@ -28,11 +28,10 @@ public class PostResource {
     @Autowired
     PostService postService;
 
-    @PostMapping("/posts")
-    public ResponseEntity<Post> createPost(@RequestBody @Valid PostDTO postDTO) {
-        var post = new Post();
-        BeanUtils.copyProperties(postDTO, post);
-        return ResponseEntity.status(HttpStatus.CREATED).body(postService.savePost(post));
+    @PostMapping("/users/{id}/posts")
+    public ResponseEntity<Post> createPostForUser(@PathVariable(value = "id") String id, @RequestBody @Valid PostDTO postDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(postService.savePost( postService.createPostForUser(id,postDTO)));
 
     }
 
