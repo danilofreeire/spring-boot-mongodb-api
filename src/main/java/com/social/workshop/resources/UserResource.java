@@ -10,20 +10,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
 @RestController
 public class UserResource {
+
     @Autowired
     UserService userService;
 
+    @GetMapping("/users/{id}")
+    public ResponseEntity<Object> getUser(@PathVariable(value = "id") String id) {
+        Optional<User> usr = userService.findUserById(id);
+        if(usr.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new UserDTO(usr.get()));
+    }
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> users = userService.findAll();
