@@ -36,6 +36,9 @@ public class CommentResource {
     public ResponseEntity<Post> createComment(@PathVariable(value = "id") String postId,
                                               @RequestBody @Valid CommentDTO commentDTO) {
         Post post = postService.addCommentToPost(postId, commentDTO);
+        var comment = new Comment();
+        BeanUtils.copyProperties(commentDTO, comment);
+        commentService.saveComment(comment);
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
 

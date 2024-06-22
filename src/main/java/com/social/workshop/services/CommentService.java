@@ -20,8 +20,9 @@ public class CommentService {
     @Autowired
     CommentRepository commentRepository;
     @Autowired
-    private PostRepository postRepository;
-
+    PostRepository postRepository;
+    @Autowired
+    PostService postService;
 
 
     public Comment saveComment(Comment comment) {
@@ -32,17 +33,17 @@ public class CommentService {
         return comment;
     }
     public Comment addCommentToPost(String postId, CommentDTO commentDTO) {
-        Optional<Post> postOpt = postRepository.findById(postId);
 
+        Optional<Post> postOpt = postService.findPostById(postId);
         Post post = postOpt.get();
 
-        Comment comment = new Comment();
-
+        var comment = new Comment();
         BeanUtils.copyProperties(commentDTO, comment);
-        comment = saveComment(comment);
-        CommentDTO commentDTOWithId = new CommentDTO(comment.getText(), comment.getDate(), comment.getAuthorDTO());
-        post.getComments().add(commentDTOWithId);
-        postRepository.save(post);
+        saveComment(comment);
+
+        post.getComments().add(commentDTO);
+
+        postService.savePost(post);
 
         return comment;
     }
