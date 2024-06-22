@@ -3,6 +3,7 @@ package com.social.workshop.resources;
 import com.social.workshop.domain.Comment;
 import com.social.workshop.domain.Post;
 import com.social.workshop.dto.CommentDTO;
+import com.social.workshop.dto.PostDTO;
 import com.social.workshop.repository.CommentRepository;
 import com.social.workshop.resources.util.URL;
 import com.social.workshop.services.CommentService;
@@ -31,14 +32,13 @@ public class CommentResource {
     @Autowired
     PostService postService;
 
-    @PostMapping("/comments")
-    public ResponseEntity<Object> createComment(@RequestBody @Valid CommentDTO commentDTO) {
-        var comment = new Comment();
-        BeanUtils.copyProperties(commentDTO, comment);
-        commentService.saveComment(comment);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Comment added successfully.");
-
+    @PostMapping("/{id}/comments")
+    public ResponseEntity<Post> createComment(@PathVariable(value = "id") String postId,
+                                              @RequestBody @Valid CommentDTO commentDTO) {
+        Post post = postService.addCommentToPost(postId, commentDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
+
     @GetMapping("/comments/{id}")
     public ResponseEntity<Object> getComment(@PathVariable(value = "id") String id) {
         Optional<Comment> cmt = commentService.findCommentById(id);

@@ -31,7 +31,7 @@ public class PostResource {
     @PostMapping("/users/{id}/posts")
     public ResponseEntity<Post> createPostForUser(@PathVariable(value = "id") String id, @RequestBody @Valid PostDTO postDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(postService.savePost( postService.createPostForUser(id,postDTO)));
+                .body(postService.savePost(postService.createPostForUser(id,postDTO)));
 
     }
 

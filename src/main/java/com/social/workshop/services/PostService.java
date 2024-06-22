@@ -2,6 +2,7 @@ package com.social.workshop.services;
 
 import com.social.workshop.domain.Comment;
 import com.social.workshop.domain.Post;
+import com.social.workshop.domain.User;
 import com.social.workshop.dto.CommentDTO;
 import com.social.workshop.dto.PostDTO;
 import com.social.workshop.repository.PostRepository;
@@ -21,8 +22,7 @@ public class PostService {
 
     @Autowired
     PostRepository postRepository;
-    @Autowired
-    CommentService commentService;
+
     @Autowired
     UserService userService;
 
@@ -36,6 +36,12 @@ public class PostService {
         post = savePost(post);
         userService.addPostToUser(userId, post);
         return post;
+    }
+    public Post addCommentToPost(String postId, CommentDTO commentDTO) {
+        Optional<Post> postOpt = findPostById(postId);
+        Post post = postOpt.get();
+        post.getComments().add(commentDTO);
+        return postRepository.save(post);
     }
 
     public Optional<Post> findPostById(@NotNull String id) {
